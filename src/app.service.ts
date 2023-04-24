@@ -1,31 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import {User} from "./entity/user";
-import {UserRepo} from "./repo/user.repo";
+import axios from 'axios';
+import { AppMyJason } from './app,myJason';
+import { CountriesRepo } from './repo/countries.repo';
+import { Mcountry } from './entity/mcountry';
 
 @Injectable()
 export class AppService {
+  constructor(private contryRepo: CountriesRepo) {
+  }
+  async getCountries() {
 
-  constructor(private readonly userRepo: UserRepo) {
+    const options = {
+      method: 'GET',
+      url: 'http://api.nobelprize.org/v1/country.json',
+      headers: { accept: 'application/json' },
+    };
+
+    // @ts-ignore
+    const res = await axios.request(options);
+    const myData: AppMyJason = JSON.parse(JSON.stringify(res.data))
+
+    const listcontriestoret: string[] = [];
+    for (let i = 0; i < myData.countries.length; i++) {
+      listcontriestoret.push(myData.countries[i].name);
+      this.updateContry(myData.countries[i]);
+    }
+
+
+    return listcontriestoret;
 
   }
-
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  async getUsers(): Promise<User[]> {
-    return await this.userRepo.getUsers();
-  }
-
-  async updateUser(user: User): Promise<User> {
-    return await this.userRepo.updateUser(user);
-  }
-
-  async createUser(user: User): Promise<User> {
-    return await this.userRepo.createUser(user);
-  }
-
-  async getUserById(id: number): Promise<User> {
-    return await this.userRepo.getUserById(id);
+  async updateContry(mcountry: Mcountry): Promise<void> {
+    return await this.contryRepo.updatData(mcountry);
   }
 }
+

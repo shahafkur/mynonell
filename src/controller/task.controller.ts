@@ -1,21 +1,22 @@
-import {Body, Controller, Get, Post} from "@nestjs/common";
-import {AppService} from "../app.service";
-import {TaskRepo} from "../repo/task.repo";
-import {Task} from "../entity/task";
+import {Controller, Get, Param} from '@nestjs/common';
+
+
+// @ts-ignore
+import { AppProvider } from './app.provider';
 
 @Controller()
-export class TaskController {
-    constructor(private readonly taskRepo: TaskRepo) {}
-
-    @Post("createTask")
-    async createTask(@Body() task: Task) {
-        return await this.taskRepo.createTask(task)
+export class AppController {
+    constructor(private readonly appProvider: AppProvider) {
     }
 
-    @Get("getTasks")
-    async getTasks() {
-        return this.taskRepo.getTasks();
+    @Get(':shouldDownloadLatest')
+    async getHello(@Param('shouldDownloadLatest') shouldDownloadLatest: string) {
+        const booleshouldDownloadLatest: boolean = JSON.parse(shouldDownloadLatest.toLowerCase());
+        if (booleshouldDownloadLatest) {
+            //return await this.appProvider.getCountries();
+            return await this.appProvider.getCountries();
+        } else {
+            return booleshouldDownloadLatest;
+        }
     }
-
-
 }

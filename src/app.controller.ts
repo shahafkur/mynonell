@@ -1,36 +1,23 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
-import { AppService } from './app.service';
-import {User} from "./entity/user";
+import { Controller, Get, Param } from '@nestjs/common';
+
+import { AppProvider } from './app.provider';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appProvider: AppProvider) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get(':shouldDownloadLatest')
+  async getHello(@Param('shouldDownloadLatest') shouldDownloadLatest: string) {
+    const booleshouldDownloadLatest: boolean = JSON.parse(
+      shouldDownloadLatest.toLowerCase(),
+    );
+    if (booleshouldDownloadLatest){
+      //return await this.appProvider.getCountries();
+      return await this.appProvider.getCountries();
+    }
+    else{
+      return booleshouldDownloadLatest;
+    }
   }
-
-  @Post("createUer")
-  async creteUser(@Body() body: User): Promise<User> {
-    return await this.appService.createUser(body)
-  }
-
-  @Get("getUsers")
-  async getUsers(): Promise<User[]> {
-    return await this.appService.getUsers();
-  }
-
-  @Get('getUser/:id')
-  async getUserById(@Param('id') id: number) {
-    return await this.appService.getUserById(id);
-  }
-
-  @Post('updateUser')
-  async updateUser(@Body() body: User) {
-    return await this.appService.updateUser(body);
-  }
-
-
 
 }
