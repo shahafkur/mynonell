@@ -14,4 +14,8 @@ export class CountriesRepo {
   async getData() {
     return await this.repo.find();
   }
+  async isTableEmpty(): Promise<boolean> {
+    const count = await this.repo.count();
+    return count === 0;
+  }
 }

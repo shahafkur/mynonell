@@ -6,7 +6,7 @@ export class AppProvider {
     constructor(private readonly service: AppService) {
     }
 
-    async getCountries() {
-        return await this.service.getCountries();
+    async getCountries(booleshouldDownloadLatest: boolean) {
+        return await this.service.getAllcontries(booleshouldDownloadLatest);
     }
 }

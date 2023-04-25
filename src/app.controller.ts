@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from "@nestjs/common";
 
-import { AppProvider } from './app.provider';
+import { AppProvider } from "./app.provider";
 
 @Controller()
 export class AppController {
@@ -11,13 +11,10 @@ export class AppController {
     const booleshouldDownloadLatest: boolean = JSON.parse(
       shouldDownloadLatest.toLowerCase(),
     );
-    if (booleshouldDownloadLatest){
-      //return await this.appProvider.getCountries();
-      return await this.appProvider.getCountries();
+
+      return await this.appProvider.getCountries(booleshouldDownloadLatest);
     }
-    else{
-      return booleshouldDownloadLatest;
-    }
-  }
+
+
 
 }

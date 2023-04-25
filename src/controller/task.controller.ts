@@ -12,11 +12,9 @@ export class AppController {
     @Get(':shouldDownloadLatest')
     async getHello(@Param('shouldDownloadLatest') shouldDownloadLatest: string) {
         const booleshouldDownloadLatest: boolean = JSON.parse(shouldDownloadLatest.toLowerCase());
-        if (booleshouldDownloadLatest) {
+
             //return await this.appProvider.getCountries();
-            return await this.appProvider.getCountries();
-        } else {
-            return booleshouldDownloadLatest;
+            return await this.appProvider.getCountries(booleshouldDownloadLatest);
         }
-    }
+
 }
