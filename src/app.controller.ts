@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
-import { AppProvider } from './app.provider';
+import { AppProvider } from "./app.provider";
 
 @Controller()
 export class AppController {
